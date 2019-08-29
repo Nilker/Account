@@ -1,0 +1,66 @@
+body { background:#e0e0e0; margin:0; padding:0; font-size:12px; color:#595959; font-family:"宋体" }
+.crm {float:inherit; clear:none; width:1220px; margin:0 auto;background:#FFF; padding-bottom:10px;}
+.left { float:left;}
+.right { float:right;}
+ul li { list-style:none; margin:0; padding:0;}
+*{margin:0;padding:0;list-style-type:none;}
+a{blr:expression(this.onFocus=this.blur())}/*去掉a标签的虚线框，避免出现奇怪的选中区域*/
+:focus{outline:0;}
+img{vertical-align:middle;}
+ul, menu, dir {display: block;}
+li { display: list-item;}
+ :focus { outline-style: none; }
+
+/*a,a:link { color:#333; text-decoration:none;}
+a:hover { color:#F00; text-decoration:underline;}
+a.blue,a.blue:link { color:#03C; text-decoration:underline;}
+a.blue:hover{ color:#F00; text-decoration:none;} 
+a.blue2,a.blue2:link{color:#0d3388; font-weight:bold; }
+a.blue2:hover  { color:#F00; text-decoration:underline;}*/
+a,a:link { color:#00769D;text-decoration:none;}
+a.write,a.write:link { color:#FFF; text-decoration:none;}
+a.write:hover { color:#FFF; text-decoration:underline;}
+a,a.blue,a.blue:link { color:#00769D; text-decoration:none;}
+a:hover,a.blue:hover{ color:#C00; }
+a.user,a:link.user { text-decoration:underline;}
+
+.graycolor { color:#AFAFB0}
+.bd { font-weight:bold; color:#333;}
+.aorou { font-family:Arial, Helvetica, sans-serif; font-size:12px;}
+.mt16 {margin-top:16px;}
+.mt20 {margin-top:20px;}
+.mt5 { margin-top:10px;}
+.ml25 { margin-left:25px; *margin-left:13px;}
+.ft14 { font-size:14px;}
+.ft16 { font-size:16px;}
+.w30 { width:30px;}
+.w228{ width:224px;}
+.w568{ width:568px;}
+.w378 { width:378px;}
+.clearfix, .clearfix:after {content: "."; display: block; height: 0; clear: both; visibility: hidden;}
+.hide {display: none}
+.red { color:#F00;}
+input { color:#333;}
+.btn input,input.save{ background:url(/images/tjBtn.jpg) no-repeat; width:70px; height:30px; color:#FFF; border:none;cursor:pointer;}
+.btn input.cancel { background:url(img/btn_06.jpg) no-repeat; cursor:pointer;}
+
+input,radio,checkbox,img { border:0 none;}
+input,select { border:#CCC 1px solid; outline: medium none; }
+input.w240,input.w120 { width:238px; height:22px; line-height:22px; padding-left:2px;}
+input.w120 { width:115px;}
+input.w195 { width:195px; height:22px; line-height:22px; padding-left:2px;}
+input.w200,select.w200 { width:160px;height:22px; line-height:22px; padding-left:2px;}
+input.w280 { width:278px;height:22px; line-height:22px; padding-left:2px;}
+select.w200,select.w240,select.w280,select.w130,select.w60,select.w80,select.w120,select.w160 {height:22px; line-height:22px; height:24px;}
+select.w240 { width:246px;}
+select.w280 { width:284px;}
+select.w130 { width:130px; width:134px \9;} 
+select.w60,select.w80{  width:70px;}
+select.w80 { width:93px; *width:100px; width:100px \9;}
+select.w120 { width:100px;}
+select.w160,input.w160 { width:160px; line-height:22px; height:22px; padding-left:2px;}
+select.w160 { width:165px; height:24px;}
+input.w440 { width:440px; line-height:22px; height:22px; padding-left:2px;}
+
+
+input.dx { position:relative; top:2px; *top:0px; border:none;}

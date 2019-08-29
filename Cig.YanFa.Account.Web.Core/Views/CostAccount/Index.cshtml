@@ -1,0 +1,220 @@
+﻿@{
+    ViewBag.Title = "支出信息";
+}
+@section Scripts
+    {
+    <script type="text/javascript">
+        $(function () {
+            // 支出类型一级 payOutType1
+            $("#payOutType1").change(function () {
+                $("#payOutType2").empty();
+                var ss = $(this).children('option:selected').val();
+                if (ss != -1) {
+                    $.get("/AccountConfig/GetpayOutType2?payOutType1=" + ss,
+                        function (data) {
+                            console.log(data);
+                            $.each(data, function (index, item) {
+                                $("#payOutType2").append('<option value="' + item.dictId + '">' + item.dictName + '</option>');
+                            });
+                        });
+                }
+            });
+        });
+
+        $(document).ready(function () {
+            var table = $('#example').DataTable({
+                ajax: $.fn.dataTable.pipeline({
+                    url: "GetListDatas",
+                    "data": function (d) {
+                        return $("#queryForm").serializeObject();
+                    },
+                }),
+                "columns": [
+                    { "data": "poCode" },
+                    { "data": "poLineNum" },
+                    { "data": "period" },
+                    { "data": "departNamePath" },
+                    { "data": "amount" },
+                    { "data": "projectName" },
+                    { "data": "companyName" },
+                    { "data": "contentTypeName" },
+                    { "data": "subjectName" },
+                    { "data": "secondSubjetName" },
+                    { "data": "stepName" },
+                    //{
+                    //    //"data": "payOutType2Name",
+                    //    "render": function (data, type, row) {
+                    //        return '<span>暂无</span>'; //'<a href="javascript:Delete(' + row.id + ')">删除</a>';
+                    //    }
+                    //},
+                ]
+            });
+
+            //$("#search").click(function () {
+            //    table.ajax.reload();
+            //});
+        });
+
+        //查询
+        function Search() {
+            $('#example').DataTable().ajax.reload();
+            console.log($('#example').DataTable().ajax.params());
+        }
+
+        //拆分前+后
+        function split(url, ss) {
+            $(ss).attr("disabled", true);
+            $(ss).val("处理中");
+            $.get(url, function (data) {
+                if (data.flag == 1) {
+                    Search();
+                }
+                $.jAlert(data.msg);
+                $(ss).val(data.flag == 1 ? "拆分成功" : "拆分失败");
+            });
+            $(ss).removeAttr("disabled");
+        }
+        
+
+        //导出
+        function exportA(url) {
+            var period = $("#Period").val();
+            if (!period) {
+                $.jAlert("请选择日期版本");
+                return false;
+            }
+            window.location.href = url +'?period='+period;
+        }
+
+    </script>
+}
+
+<div class="searchTj">
+    <form id="queryForm">
+        <ul>
+            <li>
+                <label>
+                    核算期间：
+                </label>
+                <input onclick="MyCalendarMonth.SetDate(this, this)" id="Period" name="Period" type="text" class="w240" />
+
+            </li>
+            <li style="">
+                <label>
+                    PO单号：
+                </label>
+                <input type="text" id="POCode" name="POCode" class="w240" />
+            </li>
+            <li>
+                <label>
+                    项目名称：
+                </label>
+                <input type="text" id="ProjectName" name="ProjectName" class="w240" />
+            </li>
+            <li>
+                <label>
+                    计入部门：
+                </label>
+                <input type="text" id="DepathNamePath" name="DepathNamePath" class="w240" />
+            </li>
+
+            <li>
+                <label>
+                    支出类型一级：
+                </label>
+                <select asp-items="@ViewBag.payOutTypes " id="payOutType1" name="SubjectCode" class="w240"></select>
+            </li>
+            <li>
+                <label>
+                    支出类型二级：
+                </label>
+                <select id="payOutType2" name="SecondSubjectCode" class="w240"></select>
+            </li>
+
+            <li>
+                <label>
+                    计算阶段：
+                </label>
+                <select asp-items="@ViewBag.steps " id="step" name="step" class="w240"></select>
+            </li>
+
+        </ul>
+
+        <div class="tjBtn right">
+            <input type="button" value="计算拆分前" onclick="split('SplitBefore',this)" style="width: 90px" />&nbsp;&nbsp;
+            <input type="button" value="计算拆分后" onclick="split('SplitAfter',this)" style="width: 90px" />&nbsp;&nbsp;
+            <input type="button" value="查询" onclick="Search()" class="w60" />
+        </div>
+        <div class="clearfix">
+        </div>
+    </form>
+</div>
+<br />
+
+
+<!--上部分页开始-->
+<div class="cxPage">
+    <!--左侧功能栏：待处理权限是否有添加-->
+    <div class="dcList left">
+        <img align="absmiddle" src="/images/dc.png" style="margin-left: 10px" />
+        <a style="cursor: pointer; margin-left: 0px; margin-right: 10px;" onclick="exportA('ExportHistory')" href="javascript:void(0)">导出月支出原始</a>
+
+        <img align="absmiddle" src="/images/dc.png" style="margin-left: 10px" />
+        <a style="cursor: pointer; margin-left: 0px; margin-right: 10px;" onclick="exportA('ExportVersion')" href="javascript:void(0)">导出月集采拆分比例</a>
+
+        <img align="absmiddle" src="/images/dc.png" style="margin-left: 10px" />
+        <a style="cursor: pointer; margin-left: 0px; margin-right: 10px;" onclick="exportA('ExportSplit')" href="javascript:void(0)">导出拆分结果</a>
+        
+        <img align="absmiddle" src="/images/dc.png" style="margin-left: 10px" />
+        <a style="cursor: pointer; margin-left: 0px; margin-right: 10px;" onclick="exportA('BusinessToAch')" href="javascript:void(0)">导出业务-管理关系</a>
+    </div>
+</div>
+<!--上部分页结束-->
+<div class="clearfix">
+</div>
+
+<!--数据内容开始-->
+<div id="divDataList" class="cxList">
+    <table id="example" class="display cxjg" style="width:100%" border="0" cellspacing="0" cellpadding="0">
+        <thead>
+            <tr>
+                <th>
+                    PO单号
+                </th>
+                <th>
+                    行号
+                </th>
+                <th>
+                    核算期间
+                </th>
+                <th>
+                    计入部门
+                </th>
+                <th>
+                    计入金额
+                </th>
+                <th>
+                    项目名称
+                </th>
+                <th>
+                    签约公司
+                </th>
+                <th>
+                    采购类型
+                </th>
+                <th>
+                    核算一级科目
+                </th>
+                <th>
+                    核算二级科目
+                </th>
+                <th>
+                    阶段
+                </th>
+                @*<th >
+                        操作
+                    </th>*@
+            </tr>
+        </thead>
+    </table>
+</div>

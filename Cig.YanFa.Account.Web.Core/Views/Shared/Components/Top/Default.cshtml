@@ -1,0 +1,208 @@
+﻿@using Cig.YanFa.Configuration
+@using Cig.YanFa.Navigation
+@using Microsoft.AspNetCore.Hosting
+@inject IHostingEnvironment evn
+@model Cig.YanFa.Navigation.Dto.NavigationOutput
+
+
+<script type="text/javascript">
+
+    //修改员工联系信息（固话、手机）
+    function modifyLinkInfo() {
+
+        var UserID = '<%=Session["userid"].ToString() %>';
+        var popupName = "modifyLinkInfo";
+        var parameters = {};
+        parameters["PopupName"] = popupName;
+        if (UserID) {
+            parameters["UserID"] = UserID;
+        }
+
+        $.openPopupLayer({
+            name: popupName,
+            parameters: parameters,
+            url: "/PersonalCenter/PersonCenter.aspx"
+        });
+    }
+
+
+    $(function () {
+        $('.top_open').hover(function () {
+            $(this).children("ul").stop(true, true).show();
+        }, function () {
+            $(this).children("ul").hide();
+        });
+
+
+        //头部分校 下拉
+        $("#tb-site").hover(function () {
+            $("#tb-site span").addClass("hover");
+            $("#tb-site-list").show();
+        }, function () {
+            $("#tb-site span").removeClass("hover");
+            $("#tb-site-list").hide();
+        });
+
+
+        //头部分校 下拉
+        $("#tb-site2").hover(function () {
+            $("#tb-site2 span").addClass("hover");
+            $("#tb-site-list2").show();
+        }, function () {
+            $("#tb-site2 span").removeClass("hover");
+            $("#tb-site-list2").hide();
+        });
+    });
+
+</script>
+
+<div class="head">
+    <!--header开始-->
+    <div class="header">
+        <div class="logo left">
+            <img alt="CRM系统" src="/images/logo.png">
+        </div>
+        <div class="infor right">
+            <div class="person left">
+                <img src="/images/person.png" style="        position: relative;
+        top: -1px;">
+                您好！<a class="write user" href="javascript:modifyLinkInfo();">@Context.User.Identity.Name (@User.Claims.FirstOrDefault(c => c.Type == "userId")?.Value)</a>
+            </div>
+            <div class="function right">
+                <ul>
+                    @*<% if (RemindRight)
+                           {%>
+                        <li style="position: relative;z-index:6999; top: -1px;">
+                            <ul class="menuUl">
+                                <li class="position"><span onmouseout="this.className='<%=Count=="0"?"nav_class":"nav_class_hover"%>'"
+                                    onmouseover="this.className='nav_class_hover'" class="top_open <%=Count=="0"?"nav_class":"nav_class_hover"%>">
+                                    <a class="csbg" href="javascript:;" style="width: 55px;*width: 40px;*margin-left: -15px;">消息</a>
+                                    <ul style="margin-top: 18px;" class="top_cont nextT">
+                                        <li class="mt40" style="border-bottom: 1px solid #ccc; width: 72px;"><a class="narxtmin" href="/MessageRemind/ShowMessageRemind.aspx?BigType=1">
+                                            提醒<%=Count1 %></a></li>
+                                        <li style="border-bottom: 1px solid #ccc; width: 72px;"><a class="narxtmin" href="/MessageRemind/ShowMessageRemind.aspx?BigType=2">
+                                            回复<%=Count2 %></a></li>
+                                        <li class="last"><a class="narxtmin" href="/MessageRemind/ShowMessageRemind.aspx?BigType=3">
+                                            消息<%=Count3 %></a></li>
+                                    </ul>
+                                </span></li>
+                            </ul>
+                        </li>
+                        <%} %>*@
+                    <li>
+                        <img alt="工作台" src="/images/old.png" style="        position: relative;
+        top: -1px;
+        *top: 0px;">
+                        <a class="write" href='@evn.GetAppConfiguration()["Wp2013old:OldAddress"]'>工作台</a>
+                    </li>
+
+                    <li>
+                        <img alt="退出" src="/images/exit.png"><a class="write" href="@evn.GetAppConfiguration()["Wp2013old:SysExitAddress"]">退出</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div style="        clear: both;">
+        </div>
+    </div>
+    <!--header结束-->
+    <!--菜单开始-->
+    <div class="menu mt16 ft14">
+        <ul>
+            @foreach (var item in Model.firstModules.Take(10))
+            {
+                <li>
+                    <a id='@("mm" + item.ModuleID)' class="@(item.ModuleID == Model.currentFirstModule ? "cur" : "")" href="@(item.Domain + item.Url)" @(item.Blank == 1 ? "target='_blank'" : "")>@item.ModuleName</a>
+                </li>
+            }
+
+            @if (Model.firstModules.Count > 10)
+            {
+                <li id="tb-site" style="        z-index: 999;">
+                    <span class="">更多>><b></b></span>
+                    <div id="tb-site-list">
+                        <dl class="fn-clear">
+
+                            @foreach (var item in Model.firstModules.Skip(10))
+                            {
+                                <dd>
+                                    <a id="mm+@item.ModuleID" href="@(item.Domain + item.Url)" @(item.Blank == 1 ? "target='_blank'" : "")>@item.ModuleName</a>
+                                </dd>
+                            }
+                        </dl>
+                    </div>
+                </li>
+            }
+        </ul>
+    </div>
+    <div class="clearfix">
+    </div>
+    <!--子菜单开始-->
+    <div class="mainmenu_bottom" style="        *height: 35px;">
+        <div id="div">
+            <ul id="ul" class="nav">
+                @foreach (NavigationInfo item in Model.secondModules.Take(10))
+                {
+                    <li class="drop-down tb-site2">
+                        <a @(item.Blank == 1 ? "target='_blank'" : "") href="@(item.Domain + item.Url + "#" + item.ModuleID)" class="@(item.ModuleID == Model.currentSecondModule ? "cur" : "")"> <span> @item.ModuleName</span></a>|
+                        <!--三级菜单-->
+                        @*<div class="tb-site-list2">
+                                <dl class="fn-clear">
+                                    @foreach (NavigationInfo t in Model.threeModules.Where(s => s.PID == item.ModuleID))
+                                    {
+                                    <dd>
+                                        <a href="@(t.DomainCode + t.Url + "#" + t.ModuleID)">@t.ModuleName</a>
+                                    </dd>
+                                    }
+                                </dl>
+                            </div>*@
+                        <!--三级菜单-->
+                    </li>
+                }
+                @if (Model.secondModules.Count > 10)
+                {
+                    <li id="tb-site2">
+                        <span class="">更多>><b></b></span>
+                        <div id="tb-site-list2">
+                            <dl class="fn-clear">
+                                @foreach (NavigationInfo item in Model.secondModules.Skip(10))
+                                {
+                                    <dd>
+                                        <a @(item.Blank == 1 ? "target='_blank'" : "") href="@(item.Domain + item.Url + "#" + item.ModuleID)">@item.ModuleName</a>
+                                    </dd>
+                                }
+                            </dl>
+                        </div>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+    <!--子菜单结束-->
+    <div class="clearfix">
+    </div>
+    <!--面包屑开始-->
+    <div class="menu_breadcrumbs">
+        <img class="menu_breadcrumbs_icon">
+        @{
+            var str = "";
+            var t1 = Model.firstModules.FirstOrDefault(s => s.ModuleID == Model.currentFirstModule);
+            if (t1 != null)
+            {
+                str += @t1.ModuleName;
+            }
+            var t2 = Model.secondModules.FirstOrDefault(s => s.ModuleID == Model.currentSecondModule);
+            if (t2 != null)
+            {
+                str += ">" + @t2.ModuleName;
+            }
+            var t3 = Model.threeModules.FirstOrDefault(s => s.ModuleID == Model.currentThreeModule);
+            if (t3 != null)
+            {
+                str += ">" + @t3.ModuleName;
+            }
+        }
+        <span class="menu_breadcrumbs_ft12">您当前的位置：@str</span>
+    </div>
+    <!--面包屑结束-->
+</div>

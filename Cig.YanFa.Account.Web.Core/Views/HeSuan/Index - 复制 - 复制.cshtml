@@ -1,0 +1,106 @@
+﻿@model object
+
+@{
+    ViewBag.Title = "销售业绩";
+    Layout = "_Layout";
+}
+
+@section Scripts
+{
+    <script type="text/javascript">
+        $(function () {
+            Pager(1);
+        });
+
+        //分页
+        function Pager(currentPage) {
+            var jsonPara = $("#fromList").serializeObject();
+            jsonPara.CurrentPage = currentPage;
+
+            $.post("SubList", jsonPara, function (data) {
+                $("#divSeekResult").html(data);
+            });
+        }
+
+        function Search() {
+            Pager(1);
+        }
+
+/**/</script>
+}
+
+<!--内容开始-->
+<div id="mainDiv" class="content">
+    <!--查询开始-->
+    <form id="fromList">
+        <div class="searchTj">
+            <ul>
+                <li style="clear: both;">
+                    <label>
+                        销售人员：
+                    </label>
+                    <select name="SaleManID" id="SaleManID" class="w240" runat="server" style=""></select>
+                </li>
+                <li>
+                    <label>
+                        客户名称：
+                    </label><input id="txtCustName" type="text" class="w195" readonly="readonly" />
+                    <input type="button" class="sel-btn" value="选择" style="display: inline;" onclick="openSelectCustomerAjaxPopup()" />
+                    <input id="hidCustID" name="CustID" type="hidden" />
+                </li>
+                <li>
+                    <label>
+                        提交人：
+                    </label>
+                    <input type="text" class="w240" id="txtCreateUser" name="CreateUserName" />
+                </li>
+            </ul>
+            <ul>
+                <li>
+                    <label>
+                        项目名称：
+                    </label><input id="txtSearchProject" type="text" class="w195" readonly="readonly" />
+                    <input type="button" class="sel-btn" value="选择" style="display: inline;" onclick="openAjaxProjectAjaxPopupForOne()" />
+                    <input id="hidProjectCode" name="ProjectID" type="hidden" />
+                </li>
+                <li>
+                    <label>
+                        业绩单号：
+                    </label><input type="text" class="w240" id="txtID" name="ID" maxlength="15" />
+                </li>
+                <li>
+                    <label>
+                        修改人：
+                    </label><input type="text" class="w240" id="txtLastUpdateUserName" name="LastUpdateUserName" />
+                </li>
+            </ul>
+            <ul>
+                <li style="clear: both;">
+                    <label>
+                        业务周期：
+                    </label>
+                    <input type="text" style="width: 112px; width: 111px \9; *width: 112px;" name="AchievementStartTime"
+                           id="txtBeginTime" class="w200" onclick="MyCalendar.SetDate(this)" /><em>-</em><input type="text" style="width: 112px; width: 111px \9;" name="AchievementEndTime" id="txtEndTime"
+                                                                                                                class="w200" onclick="MyCalendar.SetDate(this)" />
+                </li>
+                <li>
+
+                </li>
+                <li>
+                </li>
+            </ul>
+            <div class="tjBtn right">
+                <input type="button" value="查询" id="btnSearch" class="" onclick="Search()" />
+            </div>
+            <input type="hidden" id="hidTagID" value="0" />
+            <div class="clearfix">
+            </div>
+        </div>
+    </form>
+    <div id="divStatus">
+    </div>
+    <!--查询结束-->
+    <div id="divSeekResult">
+    </div>
+</div>
+<!--内容结束-->

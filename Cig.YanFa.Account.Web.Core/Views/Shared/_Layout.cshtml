@@ -1,0 +1,45 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - 业务系统</title>
+
+    <link type="text/css" href="/css/base.css" rel="stylesheet" />
+    <link type="text/css" href="/css/style.css" rel="stylesheet" />
+    <link type="text/css" href="/Scripts/jquery.DataTable/jquery.dataTables.css" rel="stylesheet" />
+
+    <script type="text/javascript" src="~/Scripts/jquery.DataTable/jquery.js"></script>
+    <script type="text/javascript" src="/Scripts/Enum/Area2.js"></script>
+    <script type="text/javascript" src="/Scripts/common.js"></script>
+    <script src="/Scripts/jquery.blockUI.js?v=1.0" type="text/javascript"></script>
+    <script type="text/javascript" charset="utf-8" src="/Scripts/jquery.jmpopups-0.5.1.pack.js"></script>
+    <script type="text/javascript" charset="utf-8" src="~/Scripts/jquery.DataTable/jquery.dataTables.js"></script>
+    <script type="text/javascript" charset="utf-8" src="~/Scripts/jquery.DataTable/jquery.dataTables.input.js"></script>
+    <script type="text/javascript" charset="utf-8" src="~/Scripts/jquery.DataTable/dataTableGlobalConfigV1.js"></script>
+    
+
+    @RenderSection("Scripts", required: true)
+</head>
+<body>
+    <div class="crm">
+        <!--header开始-->
+        <header>
+            @await Component.InvokeAsync("Top")
+        </header>
+        <!--header结束-->
+
+        <div class="content" id="app">
+            <partial name="_CookieConsentPartial" />
+            <main role="main" class="pb-3">
+                @RenderBody()
+            </main>
+        </div>
+        <!--footer 开始-->
+        <footer>
+            @await Component.InvokeAsync("Footer")
+        </footer>
+        <!--footer 结束-->
+    </div>
+</body>
+</html>

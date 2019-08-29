@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Infrastructure\SysRightsManager\**" />
+    <EmbeddedResource Remove="Infrastructure\SysRightsManager\**" />
+    <None Remove="Infrastructure\SysRightsManager\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Repository\DapperExtensionsProxy.cs" />
+    <Compile Remove="Repository\Interface\DapperExtensionsProxy.cs" />
+    <Compile Remove="Repository\Interface\ITest1Repository.cs" />
+    <Compile Remove="Repository\Test1Repository.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Dapper" Version="1.60.6" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="2.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Cig.YanFa.Account.Core\Cig.YanFa.Account.Core.csproj" />
+    <ProjectReference Include="..\Dapper\xLiAd.DapperEx.MsSql.Core\xLiAd.DapperEx.MsSql.Core.csproj" />
+  </ItemGroup>
+
+</Project>

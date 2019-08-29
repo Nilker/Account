@@ -1,0 +1,232 @@
+﻿@{
+    ViewBag.Title = "支出信息配置";
+}
+
+@section Scripts
+    {
+    <script type="text/javascript">
+        $(function () {
+            //订单来源选择
+            $("#orderType").change(function () {
+                $("#contentType").empty();
+                var ss = $(this).children('option:selected').val();
+                if (ss != -1) {
+                    $.get("GetContentType?type=" + ss,
+                        function (data) {
+                            console.log(data);
+                            $.each(data, function (index, item) {
+                                $("#contentType").append('<option value="' + item.dictId + '">' + item.dictName + '</option>');
+                            });
+                        });
+                }
+            });
+
+            //物料分类
+            $("#productCat1").change(function () {
+                $("#productCat2").empty();
+                var ss = $(this).children('option:selected').val();
+                if (ss != -1) {
+                    $.get("GetProductCat2?cat1=" + ss,
+                        function (data) {
+                            console.log(data);
+                            $.each(data, function (index, item) {
+                                $("#productCat2").append('<option value="' + item.productCatID + '">' + item.name + '</option>');
+                            });
+                        });
+                }
+            });
+
+            // 支出类型一级 payOutType1
+            $("#payOutType1").change(function () {
+                $("#payOutType2").empty();
+                var ss = $(this).children('option:selected').val();
+                if (ss != -1) {
+                    $.get("GetpayOutType2?payOutType1=" + ss,
+                        function (data) {
+                            console.log(data);
+                            $.each(data, function (index, item) {
+                                $("#payOutType2").append('<option value="' + item.dictId + '">' + item.dictName + '</option>');
+                            });
+                        });
+                }
+            });
+        });
+
+        $(document).ready(function () {
+            //DataList
+            var table = $('#example').DataTable({
+                ajax: $.fn.dataTable.pipeline({
+                    url: "GetListDatas",
+                    //dataSrc:"",
+                    "data": function (d) {
+                        return $("#queryForm").serializeObject();
+                    },
+                }),
+                "columns": [
+                    { "data": "companyName" },
+                    { "data": "orderTypeName" },
+                    { "data": "contentTypeName" },
+                    { "data": "productCat1Name" },
+                    { "data": "productCat2Name" },
+                    { "data": "payOutType1Name" },
+                    { "data": "payOutType2Name" },
+                    {
+                        //"data": "payOutType2Name",
+                        "render": function (data, type, row) {
+                            return '<a href="javascript:Delete(' + row.id + ')">删除</a>';
+                        }
+                    },
+                ]
+            });
+
+            //$("#search").click(function () {
+            //    table.ajax.reload();
+            //});
+        });
+
+        //添加配置
+        function AddConfigInfo() {
+            if ($("#companyCode").val() == '') {
+                $.jAlert("请选择 签约公司");
+                return false;
+            }
+
+            if ($("#contentType").val() == null) {
+                $.jAlert("请选择 订单来源-->采购类型");
+                return false;
+            }
+            if ($("#productCat2").val() == null) {
+                $.jAlert("请选择 物料分类-->物料");
+                return false;
+            }
+            if ($("#payOutType2").val() == null) {
+                $.jAlert("请选择 支出类型一级-->支出类型二级");
+                return false;
+            }
+
+
+            var tem = $("#queryForm").serializeObject();
+            $.post('AddConfig',
+                tem,
+                function (data) {
+                    $.jAlert(data.msg);
+                    Search();
+                });
+        }
+
+        //查询
+        function Search() {
+            $('#example').DataTable().ajax.reload();
+            console.log($('#example').DataTable().ajax.params());
+        }
+
+        //删除
+        function Delete(pama) {
+            $.jConfirm("确认删除该行数据吗？", function (e) {
+                if (!e) {
+                    return false;
+                }
+                $.get("DeletCostAccountConfig?Id=" + pama,
+                    function (data) {
+                        $.jAlert(data.msg);
+                        Search();
+                    });
+            });
+            console.log(pama);
+        }
+
+    </script>
+}
+
+
+
+<div class="searchTj">
+    <form id="queryForm">
+        <ul>
+            <li>
+                <label>
+                    签约公司：
+                </label>
+                <select asp-items="@ViewBag.Company" id="companyCode" name="companyCode" class="w240"></select>
+            </li>
+            <li style="">
+                <label>
+                    订单来源：@*采购大类*@
+                </label>
+                <select asp-items="@ViewBag.Types" id="orderType" name="orderType" class="w240"></select>
+            </li>
+            <li>
+                <label>
+                    采购类型：
+                </label>
+                <select id="contentType" name="contentType" class="w240"></select>
+            </li>
+            <li>
+                <label>
+                    物料分类：
+                </label>
+                <select asp-items="@ViewBag.productCategories" id="productCat1" name="productCat1" class="w240"></select>
+            </li>
+            <li>
+                <label>
+                    物料：
+                </label>
+                <select id="productCat2" name="productCat2" class="w240"></select>
+            </li>
+            <li>
+                <label>
+                    支出类型一级：
+                </label>
+                <select asp-items="@ViewBag.payOutTypes " id="payOutType1" name="payOutType1" class="w240"></select>
+            </li>
+            <li>
+                <label>
+                    支出类型二级：
+                </label>
+                <select id="payOutType2" name="payOutType2" class="w240"></select>
+            </li>
+
+        </ul>
+        <div class="tjBtn right">
+            <input type="button" value="关联" onclick="AddConfigInfo()" class="w60" />&nbsp;&nbsp;
+            <input type="button" value="查询" onclick="Search()" class="w60" />
+        </div>
+        <div class="clearfix">
+        </div>
+    </form>
+</div>
+<br />
+
+<!--数据内容开始-->
+<div id="divDataList" class="cxList">
+    <table id="example" class="display cxjg" style="width:100%" border="0" cellspacing="0" cellpadding="0">
+        <thead>
+            <tr>
+                <th width="10%">
+                    签约公司
+                </th>
+                <th width="10%">
+                    订单来源
+                </th>
+                <th width="10%">
+                    采购类型
+                </th>
+                <th width="10%">
+                    物料分类
+                </th>
+                <th width="10%">
+                    物料
+                </th>
+                <th width="20%">
+                    支出类型一级
+                </th>
+                <th width="20%">
+                    支出类型二级
+                </th>
+                <th width="10%">
+                    操作
+                </th>
+            </tr>
+        </thead>
+    </table>
+</div>

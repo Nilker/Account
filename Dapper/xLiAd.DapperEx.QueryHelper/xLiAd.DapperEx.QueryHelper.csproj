@@ -1,0 +1,31 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0;net451</TargetFrameworks>
+    <Authors>张磊</Authors>
+    <Company>张磊 xLiAd</Company>
+    <Description>一个轻量级的基于dapperEx的查询辅助工具</Description>
+    <Copyright>Copyright © zhanglei 2019</Copyright>
+    <PackageProjectUrl>https://github.com/zl33842901/DapperEx</PackageProjectUrl>
+    <Version>1.1.8.0</Version>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="nupkgsSymb\**" />
+    <Compile Remove="nupkgs\**" />
+    <EmbeddedResource Remove="nupkgsSymb\**" />
+    <EmbeddedResource Remove="nupkgs\**" />
+    <None Remove="nupkgsSymb\**" />
+    <None Remove="nupkgs\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="xLiAd.ExtMethods" Version="1.1.7" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\xLiAd.DapperEx.MsSql.Core\xLiAd.DapperEx.MsSql.Core.csproj" />
+    <ProjectReference Include="..\xLiAd.DapperEx.Repository\xLiAd.DapperEx.Repository.csproj" />
+  </ItemGroup>
+
+</Project>

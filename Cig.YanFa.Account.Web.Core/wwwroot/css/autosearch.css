@@ -1,0 +1,63 @@
+.fd-left
+{
+    float: left;
+}
+.suggstionbox
+{
+    border: 1px solid #CCCCCC;
+    float: left;
+    height: 16px;
+    line-height: 16px;
+    padding: 2px;
+}
+input, select
+{
+    border: 1px solid #CCCCCC;
+    outline: medium none;
+}
+.selecttanchu
+{
+    background: none repeat scroll 0 0 #FFFFFF;
+    border: 1px solid #CCCCCC;
+    color: #666666;
+    display: none;
+    max-height: 350px;
+    overflow: auto;
+    position: absolute;
+    top: 180px;
+    width: 150px;
+    z-index: 9999;
+}
+.selecttanchu ul
+{
+    margin: 0 0 4px 4px;
+}
+.selecttanchu ul li
+{
+    clear: none;
+    float: left;
+    width: 48px;
+}
+.selecttanchu ul li a:hover
+{
+    background: none repeat scroll 0 0 #00769D;
+    color: #FFFFFF;
+    padding: 2px 4px;
+}
+.selecthover
+{
+    background-color: #E1E0E0;
+}
+.trSelect
+{
+    cursor: pointer;
+}
+.selecttanchu table tr
+{
+    height: 25px;
+}
+.trSelect td
+{
+    padding-left: 20px;
+    font-size: 12px;
+}

@@ -1,0 +1,8 @@
+
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {background: #e9e9e9 50% 50% repeat-x; font-weight: normal; color: #555555; }
+
+.ui-icon { width: 23px; height: 24px; background-image: url(images/arrow.png);border : 1px solid #ccc; }
+
+.ui-icon-triangle-1-s { background-position: -62px -13px; }
+
+button.ui-button::-moz-focus-inner { border: 0; padding: 0;margin-top: -2px;}/* reset extra padding in Firefox */

@@ -1,0 +1,298 @@
+﻿@{
+    ViewBag.Title = "费用信息";
+}
+
+@section Scripts
+    {
+    <script src="~/lib/vue/dist/vue.js"></script>
+    <script src="~/lib/vue/dist/vue-router.js"></script>
+    <script src="~/lib/vue/dist/polyfill.js"></script>
+    <script src="~/lib/vue/dist/lodash.js"></script>
+    <script src="~/lib/vue/dist/axios.js"></script>
+    <script src="~/lib/vue/dist/axiosExt.js"></script>
+    <link href="~/lib/vue/dist/el-index.css" rel="stylesheet" />
+    <script src="~/lib/vue/dist/el-index.js"></script>
+    <link href="~/lib/vue/dist/vxe-table/index.css" rel="stylesheet" />
+    <script src="~/lib/vue/dist/vxe-table/xe-utils.js"></script>
+    <script src="~/lib/vue/dist/vxe-table/index.js"></script>
+    <style>
+        .el-input--mini {
+            width: 240px;
+        }
+
+        .el-autocomplete {
+            width: 240px;
+        }
+
+        .my-autocomplete {
+            width: 00px;
+        }
+
+            .my-autocomplete li {
+                line-height: normal;
+                padding: 7px;
+            }
+
+                .my-autocomplete li .name {
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                }
+
+                .my-autocomplete li .addr {
+                    color: #b4b4b4;
+                    font-size: 12px;
+                }
+
+                .my-autocomplete li .highlighted .addr {
+                    color: #ddd;
+                }
+        .upload-demo {
+            position: relative;
+            left: 260px;
+            top: -16px;
+        }
+    </style>
+
+    <script type="text/javascript">
+        window.onload = function () {
+            const vm = new Vue({
+                el: "#app",
+                data() {
+                    return {
+                        period: new Date().getFullYear().toString() +
+                            "-" +
+                            new Date().getMonth().toString().padStart(2, "0"),
+                        splitData: [], //拆分后数据
+                        steps: [], //计算阶段
+                        expenseTypes: [], //费用类型
+                        pOCode: "",
+                        projectName: "",
+                        departNamePath: "",
+                        selectStep: "",
+                        selectExpenseType: "",
+                        currentPage: 1,//当前页码
+                        pageSize: 10,//默认每页多少条数据
+                        dataTotal: 0,//总共多少条数据
+                        txtBefore: "计算拆分前",
+                        txtAfter: "计算拆分后"
+                    }
+                },
+                created() {
+                    this.getExpenseTypes();
+                    this.getSteps();
+                },
+                watch: {
+                    currentPage() {
+                        this.getExpenseSplitData();
+                    },
+                    pageSize() {
+                        this.getExpenseSplitData();
+                    }
+                },
+                methods: {
+                    //费用类型
+                    getExpenseTypes() {
+                        axios.get('GetExpenseType')
+                            .then((res) => {
+                                this.expenseTypes = res.data.data;
+                            });
+                    },
+                    //费用类型
+                    getSteps() {
+                        axios.get('GetSteps')
+                            .then((res) => {
+                                this.steps = res.data.data;
+                            });
+                    },
+                    //拆分后查询数据
+                    getExpenseSplitData() {
+                        let da = {
+                            Period: this.period, POCode: this.pOCode, ProjectName: this.projectName, DepartNamePath: this.departNamePath, Step: this.selectStep, ExpenseType: this.selectExpenseType
+                            , CurrentPage: this.currentPage, PageSize: this.pageSize
+                        };
+                        axios.post('GetListDatas', (da))
+                            .then((res) => {
+                                this.splitData = res.data.data;
+                                this.dataTotal = res.data.recordsTotal;
+                            });
+                    },
+                    //处理页码大小
+                    handleSizeChange(val) {
+                        this.pageSize = val;
+                    },
+                    //当前页变动时候触发的事件
+                    handleCurrentChange(val) {
+                        this.currentPage = val;
+                    },
+                    //拆分前
+                    splitBefore() {
+                        this.txtBefore = "处理中";
+                        axios.get("splitBefore").then((res) => {
+                            if (res.data.flag == 1) {
+                                this.getExpenseSplitData();
+                            }
+                            this.txtBefore = res.data.flag == 1 ? "拆分成功" : "拆分失败";
+                            this.$XMsg.alert(res.data.msg);
+                        });
+                    },
+                    //拆分后
+                    splitAfter() {
+                        this.txtAfter = "处理中";
+                        axios.get("splitAfter").then((res) => {
+                            if (res.data.flag == 1) {
+                                this.getExpenseSplitData();
+                            }
+                            this.txtAfter = res.data.flag == 1 ? "拆分成功" : "拆分失败";
+                            this.$XMsg.alert(res.data.msg);
+                        });
+                    },
+                    //导出
+                    exportA(url) {
+                        var period = this.period;
+                        if (!period) {
+                            this.$XMsg.alert("请选择日期版本");
+                            return false;
+                        }
+                        window.location.href = url + '?period=' + period;
+                    },
+                    //上传图片成功
+                    onSuccess(response, file, fileList) {
+                        this.$XMsg.alert(response.msg);
+                    },
+                    //上传前文件格式校验
+                    beforeAvatarUpload(file) {
+                        const isXlsx = file.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+                        if (!isXlsx) {
+                            this.$message.error('上传文档格式必须为：xlsx');
+                        }
+                        return isXlsx ;
+                    },                   
+                }
+            });
+        }
+
+    </script>
+}
+
+<div class="searchTj">
+    <form id="queryForm">
+        <ul>
+            <li>
+                <label>
+                    核算期间：
+                </label>
+                <el-date-picker v-model="period" value-format="yyyy-MM" type="month" size="mini" placeholder="选择月"></el-date-picker>
+
+            </li>
+            <li style="">
+                <label>
+                    流水单号：
+                </label>
+                <el-input v-model="pOCode" size="mini" placeholder="请输入内容"></el-input>
+            </li>
+            <li>
+                <label>
+                    项目名称：
+                </label>
+                <el-input v-model="projectName" size="mini" placeholder="请输入内容"></el-input>
+            </li>
+            <li>
+                <label>
+                    计入部门：
+                </label>
+                <el-input v-model="departNamePath" size="mini" placeholder="模糊查找部门名称"></el-input>
+            </li>
+            <li>
+                <label>
+                    计算阶段：
+                </label>
+                <el-select v-model="selectStep" size="mini" clearable placeholder="请选择">
+                    <el-option v-for="item in steps" :key="item.key"
+                               :label="item.value" :value="item.key">
+                    </el-option>
+                </el-select>
+            </li>
+
+            <li>
+                <label>
+                    费用类型：
+                </label>
+                <el-select v-model="selectExpenseType" size="mini" clearable placeholder="请选择">
+                    <el-option v-for="item in expenseTypes" :key="item.key"
+                               :label="item.value" :value="item.key">
+                    </el-option>
+                </el-select>
+            </li>
+
+        </ul>
+
+        <div class="tjBtn right">
+            <input type="button" :value="txtBefore" v-on:click.once="splitBefore" style="width: 90px" />&nbsp;&nbsp;
+            <input type="button" :value="txtAfter" v-on:click.once="splitAfter" style="width: 90px" />&nbsp;&nbsp;
+            <input type="button" value="查询" v-on:click="getExpenseSplitData" class="w60" />
+        </div>
+        <div class="clearfix">
+        </div>
+    </form>
+</div>
+<br />
+
+<!--上部分页开始-->
+<div class="cxPage">
+    <!--左侧功能栏：待处理权限是否有添加-->
+    <div class="dcList left">
+        <img align="absmiddle" src="/images/dc.png" style="margin-left: 10px" />
+        <a style="cursor: pointer; margin-left: 0px; margin-right: 10px;" v-on:click="exportA('ExportHistory')" href="javascript:void(0)">导出月费用原始</a>
+
+        <img align="absmiddle" src="/images/dc.png" style="margin-left: 10px" />
+        <a style="cursor: pointer; margin-left: 0px; margin-right: 10px;" v-on:click="exportA('ExportSplit')" href="javascript:void(0)">导出拆分结果</a>
+
+        <el-upload size="mini" class="upload-demo"
+                   :show-file-list="true"
+                   :limit="1"
+                   accept=".xls,.xlsx"
+                   :on-success="onSuccess"
+                   :before-upload="beforeAvatarUpload"
+                   action="FileSave"
+                   >
+            <img align="absmiddle" src="/images/dc.png" style="margin-left: 10px" />
+            <a style="cursor: pointer; margin-left: 0px; margin-right: 10px;" href="javascript:void(0)">导入固资折旧</a>
+        </el-upload>
+    </div>
+</div>
+<!--上部分页结束-->
+<div class="clearfix">
+</div>
+
+<!--数据内容开始-->
+<div id="divDataList" class="cxList">
+    <el-pagination style="float: right"
+                   :hide-on-single-page="dataTotal==0"
+                   v-on:size-change="handleSizeChange"
+                   v-on:current-change="handleCurrentChange"
+                   :current-page="currentPage"
+                   :page-sizes="[10, 25, 50]"
+                   :page-size="pageSize"
+                   layout="total, sizes, prev, pager, next, jumper"
+                   :total="dataTotal">
+    </el-pagination>
+    <el-table :data="splitData" size="mini" border fit style="width: 100%">
+        <el-table-column prop="expenseCode" width="80" label="流水单号"></el-table-column>
+        <el-table-column prop="expenseLineNum" width="50" label="行号"></el-table-column>
+        <el-table-column prop="period" width="80" label="核算期间"></el-table-column>
+        <el-table-column prop="departNamePath" width="300" label="计入部门"></el-table-column>
+        <el-table-column prop="amount" width="100" label="计入金额"></el-table-column>
+        <el-table-column prop="projectName" label="项目名称"></el-table-column>
+        <el-table-column prop="companyName" label="签约公司"></el-table-column>
+        <el-table-column prop="stepName" width="120" label="阶段"></el-table-column>
+    </el-table>
+    <el-pagination :hide-on-single-page="dataTotal==0"
+                   v-on:size-change="handleSizeChange"
+                   v-on:current-change="handleCurrentChange"
+                   :current-page="currentPage"
+                   :page-sizes="[10, 25, 50]"
+                   :page-size="pageSize"
+                   layout="total, sizes, prev, pager, next, jumper"
+                   :total="dataTotal">
+    </el-pagination>
+</div>

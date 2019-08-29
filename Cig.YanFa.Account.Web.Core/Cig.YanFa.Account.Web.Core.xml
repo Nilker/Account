@@ -1,0 +1,470 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Cig.YanFa.Account.Web.Core</name>
+    </assembly>
+    <members>
+        <member name="T:Cig.YanFa.Account.Web.Core.Common.Aop.YanFaLogAop">
+            <summary>
+            拦截器 YanFaLogAop  继承IInterceptor接口
+            </summary>
+        </member>
+        <member name="M:Cig.YanFa.Account.Web.Core.Common.Aop.YanFaLogAop.Intercept(Castle.DynamicProxy.IInvocation)">
+            <summary>
+            实例化IInterceptor唯一方法 
+            </summary>
+            <param name="invocation">包含被拦截方法的信息</param>
+        </member>
+        <member name="T:Cig.YanFa.Account.Web.Core.Common.AutoRegisterDi.AutoRegisterData">
+            <summary>
+            This holds the data passed between the various stages of the AutoRegisterDi extension methods
+            </summary>
+        </member>
+        <member name="M:Cig.YanFa.Account.Web.Core.Common.AutoRegisterDi.AutoRegisterData.#ctor(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Collections.Generic.IEnumerable{System.Type})">
+            <summary>
+            RegisterAssemblyPublicNonGenericClasses uses this to create the initial data
+            </summary>
+            <param name="services"></param>
+            <param name="typesToConsider"></param>
+        </member>
+        <member name="P:Cig.YanFa.Account.Web.Core.Common.AutoRegisterDi.AutoRegisterData.Services">
+            <summary>
+            This carries the service register 
+            </summary>
+        </member>
+        <member name="P:Cig.YanFa.Account.Web.Core.Common.AutoRegisterDi.AutoRegisterData.TypesToConsider">
+            <summary>
+            This holds the class types found by the RegisterAssemblyPublicNonGenericClasses
+            </summary>
+        </member>
+        <member name="P:Cig.YanFa.Account.Web.Core.Common.AutoRegisterDi.AutoRegisterData.TypeFilter">
+            <summary>
+            This holds an options test method which will be applied using a Where clause to filter the classes
+            If the TypeFiler is null, then no filtering is done
+            </summary>
+        </member>
+        <member name="T:Cig.YanFa.Account.Web.Core.Common.AutoRegisterDi.AutoRegisterHelpers">
+            <summary>
+            This contains the extension methods for registering classes automatically
+            </summary>
+        </member>
+        <member name="M:Cig.YanFa.Account.Web.Core.Common.AutoRegisterDi.AutoRegisterHelpers.RegisterAssemblyPublicNonGenericClasses(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Reflection.Assembly[])">
+            <summary>
+            This finds all the public, non-generic, non-nested classes in an assembly
+            in the provided assemblies
+            </summary>
+            <param name="services">the NET Core dependency injection service</param>
+            <param name="assemblies">Each assembly you want scanned </param>
+            <returns></returns>
+        </member>
+        <member name="M:Cig.YanFa.Account.Web.Core.Common.AutoRegisterDi.AutoRegisterHelpers.Where(Cig.YanFa.Account.Web.Core.Common.AutoRegisterDi.AutoRegisterData,System.Func{System.Type,System.Boolean})">
+            <summary>
+            This allows you to filter the classes in some way.
+            For instance <code>Where(c =\> c.Name.EndsWith("Service")</code> would only register classes who's name ended in "Service"
+            </summary>
+            <param name="autoRegData"></param>
+            <param name="predicate">A function that will take a type and return true if that type should be included</param>
+            <returns></returns>
+        </member>
+        <member name="M:Cig.YanFa.Account.Web.Core.Common.AutoRegisterDi.AutoRegisterHelpers.AsPublicImplementedInterfaces(Cig.YanFa.Account.Web.Core.Common.AutoRegisterDi.AutoRegisterData,Microsoft.Extensions.DependencyInjection.ServiceLifetime)">
+            <summary>
+            This registers the classes against any public interfaces (other than IDisposable) implemented by the class
+            </summary>
+            <param name="autoRegData">AutoRegister data produced by <see cref="M:Cig.YanFa.Account.Web.Core.Common.AutoRegisterDi.AutoRegisterHelpers.RegisterAssemblyPublicNonGenericClasses(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Reflection.Assembly[])"/></param> method
+            <param name="lifetime">Allows you to define the lifetime of the service - defaults to ServiceLifetime.Transient</param>
+            <returns></returns>
+        </member>
+        <member name="M:Cig.YanFa.Account.Web.Core.Common.FileUtils.IsExistDirectory(System.String)">
+            <summary>
+            检测指定路径是否存在
+            </summary>
+            <param name="path">目录的绝对路径</param> 
+        </member>
+        <member name="M:Cig.YanFa.Account.Web.Core.Common.FileUtils.IsExistFile(System.String)">
+            <summary>
+            检测指定文件是否存在,如果存在则返回true
+            </summary>
+            <param name="filePath">文件的绝对路径</param>  
+        </member>
+        <member name="M:Cig.YanFa.Account.Web.Core.Common.FileUtils.CreateFolder(System.String)">
+            <summary>
+            创建文件夹
+            </summary>
+            <param name="folderPath">文件夹的绝对路径</param>
+        </member>
+        <member name="M:Cig.YanFa.Account.Web.Core.Common.FileUtils.IsCanEdit(System.String)">
+            <summary>
+            判断上传文件后缀名
+            </summary>
+            <param name="strExtension">后缀名</param>
+        </member>
+        <member name="M:Cig.YanFa.Account.Web.Core.Common.FileUtils.CreateSuffic(System.String)">
+            <summary>
+            创建文件夹
+            </summary>
+            <param name="fileName">文件的绝对路径</param>
+        </member>
+        <member name="M:Cig.YanFa.Account.Web.Core.Common.FileUtils.CreateFiles(System.String)">
+            <summary>
+            创建文件夹
+            </summary>
+            <param name="fileName">文件的绝对路径</param>
+        </member>
+        <member name="M:Cig.YanFa.Account.Web.Core.Common.FileUtils.CreateFile(System.String,System.Byte[])">
+            <summary>
+            创建一个文件,并将字节流写入文件。
+            </summary>
+            <param name="filePath">文件的绝对路径</param>
+            <param name="buffer">二进制流数据</param>
+        </member>
+        <member name="M:Cig.YanFa.Account.Web.Core.Common.FileUtils.Move(System.String,System.String)">
+            <summary>
+            将文件移动到指定目录
+            </summary>
+            <param name="sourceFilePath">需要移动的源文件的绝对路径</param>
+            <param name="descDirectoryPath">移动到的目录的绝对路径</param>
+        </member>
+        <member name="M:Cig.YanFa.Account.Web.Core.Common.FileUtils.Copy(System.String,System.String)">
+            <summary>
+            将源文件的内容复制到目标文件中
+            </summary>
+            <param name="sourceFilePath">源文件的绝对路径</param>
+            <param name="descDirectoryPath">目标文件的绝对路径</param>
+        </member>
+        <member name="M:Cig.YanFa.Account.Web.Core.Common.FileUtils.GetFileName(System.String)">
+            <summary>
+            从文件的绝对路径中获取文件名( 不包含扩展名 )
+            </summary>
+            <param name="filePath">文件的绝对路径</param> 
+        </member>
+        <member name="M:Cig.YanFa.Account.Web.Core.Common.FileUtils.GetExtension(System.String)">
+            <summary>
+            获取文件的后缀名
+            </summary>
+            <param name="filePath">文件的绝对路径</param>
+        </member>
+        <member name="M:Cig.YanFa.Account.Web.Core.Common.FileUtils.GetFileExt(System.String)">
+            <summary>
+            返回文件扩展名，不含“.”
+            </summary>
+            <param name="filepath">文件全名称</param>
+            <returns>string</returns>
+        </member>
+        <member name="M:Cig.YanFa.Account.Web.Core.Common.FileUtils.DeleteFile(System.String)">
+            <summary>
+            删除指定文件
+            </summary>
+            <param name="filePath">文件的绝对路径</param>
+        </member>
+        <member name="M:Cig.YanFa.Account.Web.Core.Common.FileUtils.DeleteDirectory(System.String)">
+            <summary>
+            删除指定目录及其所有子目录
+            </summary>
+            <param name="directoryPath">文件的绝对路径</param>
+        </member>
+        <member name="M:Cig.YanFa.Account.Web.Core.Common.FileUtils.ClearDirectory(System.String)">
+            <summary>
+            清空指定目录下所有文件及子目录,但该目录依然保存.
+            </summary>
+            <param name="directoryPath">指定目录的绝对路径</param>
+        </member>
+        <member name="M:Cig.YanFa.Account.Web.Core.Common.FileUtils.FileMove(System.String,System.String)">
+            <summary>
+            剪切文件
+            </summary>
+            <param name="source">原路径</param> 
+            <param name="destination">新路径</param> 
+        </member>
+        <member name="M:Cig.YanFa.Account.Web.Core.Common.FileUtils.IsEmptyDirectory(System.String)">
+            <summary>
+            检测指定目录是否为空
+            </summary>
+            <param name="directoryPath">指定目录的绝对路径</param>  
+        </member>
+        <member name="M:Cig.YanFa.Account.Web.Core.Common.FileUtils.GetFileNames(System.String)">
+            <summary>
+            获取指定目录中所有文件列表
+            </summary>
+            <param name="directoryPath">指定目录的绝对路径</param>  
+        </member>
+        <member name="M:Cig.YanFa.Account.Web.Core.Common.FileUtils.GetDirectories(System.String)">
+            <summary>
+            获取指定目录中所有子目录列表,若要搜索嵌套的子目录列表,请使用重载方法
+            </summary>
+            <param name="directoryPath">指定目录的绝对路径</param>
+        </member>
+        <member name="M:Cig.YanFa.Account.Web.Core.Common.FileUtils.GetDirectories(System.String,System.String,System.Boolean)">
+            <summary>
+            获取指定目录及子目录中所有子目录列表
+            </summary>
+            <param name="directoryPath">指定目录的绝对路径</param>
+            <param name="searchPattern">模式字符串，"*"代表0或N个字符，"?"代表1个字符。
+            范例："Log*.xml"表示搜索所有以Log开头的Xml文件。</param>
+            <param name="isSearchChild">是否搜索子目录</param>
+        </member>
+        <member name="M:Cig.YanFa.Account.Web.Core.Common.FileUtils.GetFileSize(System.String)">
+            <summary> 
+            获取一个文件的长度,单位为Byte 
+            </summary> 
+            <param name="filePath">文件的绝对路径</param>         
+        </member>
+        <member name="M:Cig.YanFa.Account.Web.Core.Common.FileUtils.GetFileSizeByKb(System.String)">
+            <summary> 
+            获取一个文件的长度,单位为KB 
+            </summary> 
+            <param name="filePath">文件的路径</param>         
+        </member>
+        <member name="M:Cig.YanFa.Account.Web.Core.Common.FileUtils.GetFileSizeByMb(System.String)">
+            <summary> 
+            获取一个文件的长度,单位为MB 
+            </summary> 
+            <param name="filePath">文件的路径</param>         
+        </member>
+        <member name="M:Cig.YanFa.Account.Web.Core.Common.FileUtils.FileToString(System.String)">
+            <summary>
+            将文件读取到字符串中
+            </summary>
+            <param name="filePath">文件的绝对路径</param>
+        </member>
+        <member name="M:Cig.YanFa.Account.Web.Core.Common.FileUtils.FileToString(System.String,System.Text.Encoding)">
+            <summary>
+            将文件读取到字符串中
+            </summary>
+            <param name="filePath">文件的绝对路径</param>
+            <param name="encoding">字符编码</param>
+        </member>
+        <member name="T:Cig.YanFa.Account.Web.Core.Common.GlobalExceptionsFilter">
+            <summary>
+            全局异常错误日志
+            </summary>
+        </member>
+        <member name="M:Cig.YanFa.Account.Web.Core.Common.GlobalExceptionsFilter.WriteLog(System.String,System.Exception)">
+            <summary>
+            自定义返回格式
+            </summary>
+            <param name="throwMsg"></param>
+            <param name="ex"></param>
+            <returns></returns>
+        </member>
+        <member name="P:Cig.YanFa.Account.Web.Core.Common.JsonErrorResponse.Message">
+            <summary>
+            生产环境的消息
+            </summary>
+        </member>
+        <member name="P:Cig.YanFa.Account.Web.Core.Common.JsonErrorResponse.DevelopmentMessage">
+            <summary>
+            开发环境的消息
+            </summary>
+        </member>
+        <member name="T:Cig.YanFa.Account.Web.Core.Common.JsonFlag">
+            <summary>
+            返回json
+            </summary>
+        </member>
+        <member name="M:Cig.YanFa.Account.Web.Core.Common.JsonFlag.#ctor(System.Exception)">
+            <summary>
+            失败---异常消息
+            </summary>
+            <param name="ex"></param>
+        </member>
+        <member name="M:Cig.YanFa.Account.Web.Core.Common.JsonFlag.#ctor(System.Exception,System.Object)">
+            <summary>
+            失败--异常消息和数据
+            </summary>
+            <param name="ex"></param>
+            <param name="data"></param>
+        </member>
+        <member name="M:Cig.YanFa.Account.Web.Core.Common.JsonFlag.#ctor(System.String,System.Object)">
+            <summary>
+            成功返回--消息和数据
+            </summary>
+            <param name="msg">消息</param>
+            <param name="data">数据</param>
+        </member>
+        <member name="M:Cig.YanFa.Account.Web.Core.Common.JsonFlag.#ctor(System.Int32,System.String)">
+            <summary>
+            返回操作消息
+            </summary>
+            <param name="flag">1 成功， 0 失败</param>
+            <param name="msg">消息内容</param>
+        </member>
+        <member name="M:Cig.YanFa.Account.Web.Core.Common.JsonFlag.#ctor(System.Object)">
+            <summary>
+            返回成功数据
+            </summary>
+            <param name="data">数据或列表</param>
+        </member>
+        <member name="M:Cig.YanFa.Account.Web.Core.Common.JsonFlag.#ctor(System.Int32,System.String,System.Object)">
+            <summary>
+            返回Json格式化对象
+            </summary>
+            <param name="flag">1 成功， 0 失败</param>
+            <param name="msg">返回的消息</param>
+            <param name="data">json 格式对象</param>
+        </member>
+        <member name="P:Cig.YanFa.Account.Web.Core.Common.JsonFlag.Flag">
+            <summary>
+            1 成功， 0 失败
+            </summary>
+        </member>
+        <member name="P:Cig.YanFa.Account.Web.Core.Common.JsonFlag.Data">
+            <summary>
+            json 格式对象
+            </summary>
+        </member>
+        <member name="P:Cig.YanFa.Account.Web.Core.Common.JsonFlag.Msg">
+            <summary>
+            返回的消息
+            </summary>
+        </member>
+        <member name="M:Cig.YanFa.Account.Web.Core.Controllers.CostAccountController.BusinessToAch(System.String)">
+            <summary>
+            导出业务---》管理 关系
+            </summary>
+            <param name="period"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Cig.YanFa.Account.Web.Core.Controllers.ExpenseController.GetSteps">
+            <summary>
+            获取计算阶段
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Cig.YanFa.Account.Web.Core.Controllers.ExpenseController.GetExpenseType">
+            <summary>
+            获取费用类型
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Cig.YanFa.Account.Web.Core.Controllers.ExpenseController.GetListDatas(Cig.YanFa.Account.Application.Crm.Expense.Dto.ExpenseInput)">
+            <summary>
+            获取拆分数据
+            </summary>
+            <param name="queryModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Cig.YanFa.Account.Web.Core.Controllers.ExpenseController.SplitBefore(System.String,System.Int32)">
+            <summary>
+            拆分前
+            </summary>
+            <param name="period"></param>
+            <param name="expenseType"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Cig.YanFa.Account.Web.Core.Controllers.ExpenseController.SplitAfter(System.String,System.Int32)">
+            <summary>
+            拆分后
+            </summary>
+            <param name="period"></param>
+            <param name="expenseType"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Cig.YanFa.Account.Web.Core.Controllers.ExpenseController.FileSave(System.Collections.Generic.List{Microsoft.AspNetCore.Http.IFormFile})">
+            <summary>
+            上传 文件
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Cig.YanFa.Account.Web.Core.Controllers.TestController">
+            <summary>
+            测试 接口，用来测试一些方法
+            </summary>
+        </member>
+        <member name="M:Cig.YanFa.Account.Web.Core.Controllers.TestController.GetPos(System.String)">
+            <summary>
+            获取po --poline --poacConfim
+            </summary>
+            <param name="poCode">不传就是全部</param>
+            <returns></returns>
+        </member>
+        <member name="M:Cig.YanFa.Account.Web.Core.Controllers.TestController.AddPos(System.String)">
+            <summary>
+            将Po汇总信息--写入--PurchaseOrderLineConfirmHistory
+            </summary>
+            <param name="poCode"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Cig.YanFa.Account.Web.Core.Controllers.TestController.AddRationVersion(System.String)">
+            <summary>
+            根据 成本支出月成本历史表【PurchaseOrderLineConfirmHistorys】--->写入 集采需求拆分版本表【PurchaseRequirementDeptShareRatioVersion】
+            </summary>
+            <param name="poCode"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Cig.YanFa.Account.Web.Core.Controllers.TestController.AddCostAccountConfig(Cig.YanFa.Account.Application.PurchaseOrder.Dto.CostAccountConfigInput)">
+            <summary>
+            添加 成本支出核算科目配置表
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Cig.YanFa.Account.Web.Core.Controllers.TestController.AddCostAccountBeforeSplit(System.String,System.String)">
+            <summary>
+            成本-----》拆分-----》 拆分前
+            </summary>
+            <param name="poCode">PoCode</param>
+            <param name="period">计算月份：如 “2019-05”</param>
+            <returns></returns>
+        </member>
+        <member name="M:Cig.YanFa.Account.Web.Core.Controllers.TestController.GetBeforeSplits">
+            <summary>
+            获取拆分前
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Cig.YanFa.Account.Web.Core.Controllers.TestController.DoSplit(System.String,System.String)">
+            <summary>
+            成本-----》拆分-----》  进行 公共拆分 定向拆分 转架构
+            </summary>
+            <param name="poCode">PoCode</param>
+            <param name="period">计算月份：如 “2019-05”</param>
+            <returns></returns>
+        </member>
+        <member name="M:Cig.YanFa.Account.Web.Core.Controllers.TestController.GetCommonSplit">
+            <summary>
+            获取公共成本拆分比例，计入部门----》末级
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Cig.YanFa.Account.Web.Core.Controllers.TestController.AddExpenseLineConfirmHistory(System.String)">
+            <summary>
+            费用---添加---》汇总表
+            </summary>
+            <param name="expenseCode">费用单号：如IE******</param>
+            <returns></returns>
+        </member>
+        <member name="M:Cig.YanFa.Account.Web.Core.Controllers.TestController.AddExpenseAccount(System.Int32,System.String,System.String)">
+            <summary>
+            费用---拆分---》拆分前
+            </summary>
+            <param name="expenseType">费用类型</param>
+            <param name="expenseCode">费用Code</param>
+            <param name="period">计算月份：如 “2019-05”</param>
+            <returns></returns>
+        </member>
+        <member name="M:Cig.YanFa.Account.Web.Core.Controllers.TestController.ExpenseAccountCommonSplit(System.Int32,System.String,System.String)">
+            <summary>
+            费用---拆分---》公共拆分 定向拆分 转架构
+            </summary>
+            <param name="expenseType">费用类型</param>
+            <param name="expenseCode">费用Code</param>
+            <param name="period">计算月份：如 “2019-05”</param>
+            <returns></returns>
+        </member>
+        <member name="T:Cig.YanFa.Account.Web.Core.StartupTask.IMyStartupTask">
+            <summary>
+            启动事件
+            </summary>
+        </member>
+        <member name="T:Cig.YanFa.Account.Web.Core.StartupTask.MyStartupTask">
+            <summary>
+            启动事件
+            </summary>
+        </member>
+        <member name="T:Cig.YanFa.Account.Web.Core.Utils.DESEncryptor">
+            <summary>
+            DES加密解密类 
+            </summary>
+        </member>
+    </members>
+</doc>

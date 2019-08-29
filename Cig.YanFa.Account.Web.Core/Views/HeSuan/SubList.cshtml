@@ -1,0 +1,115 @@
+﻿@using Cig.YanFa.Account.Application.Dto
+@model IReadOnlyList<Cig.YanFa.HeSuan.Dto.SaleAchievementListOutPut>
+<div class="cxPage">
+    <div class="dcList left">
+        <img src="/images/xj_new.png" align="absmiddle"><a href="javascript:void(0)" onclick="openAjaxSaleAchievementAjaxPopup()">新增业绩</a>
+        <img src="/images/dc.png" align="absmiddle"><a href="javascript:void(0)" onclick="OutExcel()" id="btnExprotExcel">导出Excel</a>
+    </div>
+    <!--分页上-->
+    <pager pager-option="ViewBag.PagerOption as CrmPagerOption" is-up="true"></pager>
+</div>
+<div class="clearfix">
+</div>
+<!--数据内容开始-->
+<div id="divDataList" class="cxList">
+    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="cxjg">
+        <tr>
+            <th width="5%">
+                业绩单号
+            </th>
+            <th width="4%">
+                销售人员
+            </th>
+            <th width="8%">
+                客户名称
+            </th>
+            <th width="8%">
+                项目名称
+            </th>
+            <th width="6%">
+                客户确认附件
+            </th>
+            <th width="4%">
+                业绩金额
+            </th>
+            <th width="6%">
+                业绩周期
+            </th>
+            <th width="4%">
+                提交人
+            </th>
+            <th width="4%">
+                提交时间
+            </th>
+            <th width="4%">
+                修改人
+            </th>
+            <th width="4%">
+                修改时间
+            </th>
+            <th width="4%">
+                操作
+            </th>
+        </tr>
+        @foreach(var item in Model)
+         {
+
+        <tr>
+            <td>
+               @item.ID
+            </td>
+            <td>
+                @item.SaleManName
+            </td>
+            <td class="cName">
+                @item.CustName
+            </td>
+            <td>
+                @item.ProjectName
+            </td>
+            <td>
+                <a href='@item.FilePath' >@item.FileName</a>
+            </td>
+            <td>
+                @Convert.ToDecimal(item.AchievementAmount).ToString("N2")
+            </td>
+            <td>
+                @($"{item.AchievementStartTime.ToShortDateString()} 至 {item.AchievementEndTime.ToShortDateString()}")
+            </td>
+            <td>
+                @item.CreateUserName
+            </td>
+            <td>
+                @item.CreateTime.ToShortDateString()
+            </td>
+            <td>
+                @item.LastUpdateUserName
+            </td>
+            <td>
+                @item.LastUpdateTime.ToShortDateString()
+            </td>
+            <td>
+                @*<% if (BitAuto.YanFa.Crm2009.BLL.Util.checkRight("SYS027SUB0298"))
+                { %>
+                <a href="javascript:void(0)" onclick='openAjaxSaleAchievementAjaxPopup("<%# Eval(";ID;").ToString() %>", "<%# Eval(";AchievementStartTime;").ToString().Split(;' ')[0] %>","<%# Eval("AchievementEndTime").ToString().Split(' ')[0] %>","<%# Eval("SaleManID") %>")'><%--<%# isEdit(Eval("CreateUserID").ToString(),Eval("ApproveStatus").ToString())?"编辑":"" %>--%>编辑</a>
+                <% } %>
+
+                <% if (BitAuto.YanFa.Crm2009.BLL.Util.checkRight("SYS027SUB0299"))
+                { %>
+                <a href="javascript:void(0)" onclick='delSaleAchievement("<%# Eval(";ID;")%>");'><%--<%# isDelete(Eval("CreateUserID").ToString(),Eval("ApproveStatus").ToString())?"删除":"" %>--%>删除</a>
+                <% } %>*@
+            </td>
+        </tr>
+        }
+
+    </table>
+</div>
+
+<div class="clearfix"></div>
+<!--数据内容结束-->
+<!--分页下-->
+<pager pager-option="ViewBag.PagerOption as CrmPagerOption" is-up="false"></pager>
+
+
+<div class="clearfix">
+</div>

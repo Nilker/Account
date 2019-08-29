@@ -1,0 +1,82 @@
+/*存放基础样式*/
+body { background:#e0e0e0; margin:0; padding:0; font-size:12px; color:#595959; font-family: "宋体";}
+.crm {float:inherit; clear:none; width:1220px; margin:0 auto;background:#FFF; padding-bottom:10px;}
+.left { float:left;}
+.right { float:right;}
+ul li { list-style:none; margin:0; padding:0;}
+*{margin:0;padding:0;list-style-type:none;}
+img{vertical-align:middle;}
+textarea { font-size: 12px;padding: 2px;}
+select { margin: 0;padding: 0;}
+/*a,a:link { color:#333; text-decoration:none;}
+a:hover { color:#F00; text-decoration:underline;}
+a.blue,a.blue:link { color:#03C; text-decoration:underline;}
+a.blue:hover{ color:#F00; text-decoration:none;} 
+a.blue2,a.blue2:link{color:#0d3388; font-weight:bold; }
+a.blue2:hover  { color:#F00; text-decoration:underline;}*/
+a,a:link { color:#00769D;text-decoration:none;}
+a.write,a.write:link { color:#FFF; text-decoration:none;}
+a.write:hover { color:#FFF; text-decoration:underline;}
+a,a.blue,a.blue:link { color:#00769D; text-decoration:none;}
+a:hover,a.blue:hover{ color:#C00; }
+a.user,a:link.user { text-decoration:underline;}
+
+.graycolor { color:#AFAFB0}
+.bd { font-weight:bold; color:#333;}
+.aorou { font-family:Arial, Helvetica, sans-serif; font-size:12px;}
+.mt16 {margin-top:16px;}
+.mt20 {margin-top:20px;}
+.mt5 { margin-bottom:10px;}
+.ft14 { font-size:14px;}
+.ft16 { font-size:16px;}
+.w120 { width:120px;}
+.w400 { width:400px;}
+.w700 { width:690px;}
+.clearfix, .clearfix:after {content: "."; display: block; height: 0; clear: both; visibility: hidden;}
+.hide {display: none}
+.red { color:#F00;}
+input { color:#333;}
+input.dx { position:relative; top:2px; *top:0px; border:none;}
+/*.btn input,input.save{ background:url(/images/tjBtn.jpg) no-repeat; width:70px; height:30px; color:#FFF; border:none;cursor:pointer;}*/
+/*.btn input.cancel { background:url(/images/tjBtn_hr.jpg) no-repeat; cursor:pointer;}*/
+
+/* 2013-03-27原来样式，先注释了，下边是新添加的
+input,select { border:#CCC 1px solid; }
+input.w240 { width:238px; height:22px; line-height:22px; padding-left:2px;}
+input.w195 { width:195px; height:22px; line-height:22px; padding-left:2px;}
+input.w200,select.w200 { width:160px;height:22px; line-height:22px; paddin
+g-left:2px;}
+input.w280 { width:278px;height:22px; line-height:22px; padding-left:2px;}
+select.w240 { width:246px;height:22px; line-height:22px;}
+select.w280 { width:284px;height:22px; line-height:22px;}
+select.w130 { width:130px; width:134px \9;height:22px; line-height:22px;} 
+select.w60{  width:70px; height:22px; line-height:22px; }
+select.w120 { width:100px; height:22px; line-height:22px;}
+*/
+img {border:0 none;}
+input,select { border:#CCC 1px solid; outline: medium none; }
+input.w240,input.w120,input.w80 { width:238px; height:22px; line-height:22px; padding-left:2px;border:#CCC 1px solid;}
+/*input.w120 { width:118px;width:120px \9;}*/
+input.w120 { width:118px;width:121px \9;}
+input.w80 { width:80px;}
+/*input.w195 { width:195px; height:22px; line-height:22px; padding-left:2px;border:#CCC 1px solid;*width:198px; width:198px \9;}*/
+input.w195 { width:195px; height:22px; line-height:22px; padding-left:2px;border:#CCC 1px solid; width:198px \9;*width:199px;}
+input.w200,select.w200 { width:160px;height:22px; line-height:22px; padding-left:2px;}
+input.w280 { width:278px;height:22px; line-height:22px; padding-left:2px;border:#CCC 1px solid;}
+input.w700 { width:708px;height:22px; line-height:22px; padding-left:2px;border:#CCC 1px solid;}
+select.w200,select.w240,select.w280,select.w130,select.w60,select.w80,select.w120,select.w160,select.w150{ padding: 2px;border:#CCC 1px solid;height: 24px;line-height: 22px;}
+select.w240 { width:242px;}
+select.w280 { width:284px;}
+select.w130 { width:130px; width:134px \9;} 
+select.w60,select.w80{  width:70px;}
+select.w80 { width:93px; *width:100px; width:100px \9;}
+select.w120 { width:100px;}
+input.w160 { width:160px; line-height:22px; height:22px; padding-left:2px;}
+/*select.w160 { width:165px;}*/
+select.w160 { width:164px;}
+select.w150{width:150px; }
+input.w440 { width:440px; line-height:22px; height:22px; padding-left:2px;}
+input.w112{width:112px; height:22px; line-height:22px; padding-left:2px;}
+input.w165 { width:160px; padding-left:2px; height:20px; height:20px \9; *height:20px;}
+a.xz{ display:inline-block; background:url(../Images/xz.jpg) no-repeat; width:47px; height:18px}
+

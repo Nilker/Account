@@ -1,0 +1,184 @@
+﻿@model object
+
+@{
+    ViewBag.Title = "销售业绩";
+    Layout = "_Layout";
+}
+
+@section Scripts
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var table = $('#example').DataTable({
+                ajax: $.fn.dataTable.pipeline( {
+                    url: "GetListDatas",
+                    //dataSrc:"",
+                    "data": {
+                        "mm":123
+                    }
+                }),
+                "columns": [
+                    { "data": "id" },
+                    { "data": "saleManName" },
+                    { "data": "custName" },
+                    { "data": "projectName" },
+                    { "data": "fileName" },
+                    { "data": "achievementAmount" },
+                    { "data": "achievementStartTime" },
+                    { "data": "createUserName" },
+                    { "data": "createTime" },
+                    { "data": "lastUpdateUserName" },
+                    { "data": "lastUpdateTime" },
+                    { "data": "createUserName" }
+                ]                
+            });
+
+            //点击行事件
+            $('#example tbody').on('click', 'tr', function () {
+                var data = table.row(this).data();
+                alert('点击行内容Jsonw为 ：' + JSON.stringify(data));
+            });
+
+            //分页、排序、查询事件
+            var eventFired = function (type) {
+                var order = table.order();
+                var search = table.search();
+                var info = table.page.info();
+                console.log("order====>" + JSON.stringify(order));
+                console.log("search====>" + search);
+                console.log("page====>" + JSON.stringify(info));
+
+
+                //var n = $('#demo_info')[0];
+                //n.innerHTML += '<div>' + type + ' event - ' + new Date().getTime() + '</div>';
+                //n.scrollTop = n.scrollHeight;
+            }
+
+            $('#example')
+                .on('order.dt', function () { eventFired('Order'); })
+                .on('search.dt', function () { eventFired('Search'); })
+                .on('page.dt', function () { eventFired('Page'); })
+
+
+        });
+
+/**/</script>
+}
+
+<!--内容开始-->
+<div id="mainDiv" class="content">
+    <!--查询开始-->
+    <form id="fromList">
+        <div class="searchTj">
+            <ul>
+                <li style="clear: both;">
+                    <label>
+                        销售人员：
+                    </label>
+                    <select name="SaleManID" id="SaleManID" class="w240" runat="server" style=""></select>
+                </li>
+                <li>
+                    <label>
+                        客户名称：
+                    </label><input id="txtCustName" type="text" class="w195" readonly="readonly" />
+                    <input type="button" class="sel-btn" value="选择" style="display: inline;" onclick="openSelectCustomerAjaxPopup()" />
+                    <input id="hidCustID" name="CustID" type="hidden" />
+                </li>
+                <li>
+                    <label>
+                        提交人：
+                    </label>
+                    <input type="text" class="w240" id="txtCreateUser" name="CreateUserName" />
+                </li>
+            </ul>
+            <ul>
+                <li>
+                    <label>
+                        项目名称：
+                    </label><input id="txtSearchProject" type="text" class="w195" readonly="readonly" />
+                    <input type="button" class="sel-btn" value="选择" style="display: inline;" onclick="openAjaxProjectAjaxPopupForOne()" />
+                    <input id="hidProjectCode" name="ProjectID" type="hidden" />
+                </li>
+                <li>
+                    <label>
+                        业绩单号：
+                    </label><input type="text" class="w240" id="txtID" name="ID" maxlength="15" />
+                </li>
+                <li>
+                    <label>
+                        修改人：
+                    </label><input type="text" class="w240" id="txtLastUpdateUserName" name="LastUpdateUserName" />
+                </li>
+            </ul>
+            <ul>
+                <li style="clear: both;">
+                    <label>
+                        业务周期：
+                    </label>
+                    <input type="text" style="width: 112px; width: 111px \9; *width: 112px;" name="AchievementStartTime"
+                           id="txtBeginTime" class="w200" onclick="MyCalendar.SetDate(this)" /><em>-</em><input type="text" style="width: 112px; width: 111px \9;" name="AchievementEndTime" id="txtEndTime"
+                                                                                                                class="w200" onclick="MyCalendar.SetDate(this)" />
+                </li>
+                <li>
+
+                </li>
+                <li>
+                </li>
+            </ul>
+            @*<div class="tjBtn right">
+                    <input type="button" value="查询" id="btnSearch" class="" onclick="Search()" />
+                </div>*@
+            <input type="hidden" id="hidTagID" value="0" />
+            <div class="clearfix">
+            </div>
+        </div>
+    </form>
+    <div id="divStatus">
+    </div>
+    <!--数据内容开始-->
+    <div id="divDataList" class="cxList">
+        <table id="example" class="display cxjg" style="width:100%" border="0" cellspacing="0" cellpadding="0">
+            <thead>
+                <tr>
+                    <th width="5%">
+                        业绩单号
+                    </th>
+                    <th width="4%">
+                        销售人员
+                    </th>
+                    <th width="8%">
+                        客户名称
+                    </th>
+                    <th width="8%">
+                        项目名称
+                    </th>
+                    <th width="6%">
+                        客户确认附件
+                    </th>
+                    <th width="4%">
+                        业绩金额
+                    </th>
+                    <th width="6%">
+                        业绩周期
+                    </th>
+                    <th width="4%">
+                        提交人
+                    </th>
+                    <th width="4%">
+                        提交时间
+                    </th>
+                    <th width="4%">
+                        修改人
+                    </th>
+                    <th width="4%">
+                        修改时间
+                    </th>
+                    <th width="4%">
+                        操作
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+<!--内容结束-->
