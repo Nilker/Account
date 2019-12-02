@@ -23,6 +23,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cig.YanFa.Account.Repositor
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cig.YanFa.Account.UnTest", "Cig.YanFa.Account.UnTest\Cig.YanFa.Account.UnTest.csproj", "{FBCFEC3B-25E3-4056-8594-54AC48278236}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Quartz.Net.Framework", "Quartz.Net.Framework\Quartz.Net.Framework.csproj", "{CD82AFB8-EBEB-4152-9805-2E141B1D4D7E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -65,6 +67,10 @@ Global
 		{FBCFEC3B-25E3-4056-8594-54AC48278236}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FBCFEC3B-25E3-4056-8594-54AC48278236}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FBCFEC3B-25E3-4056-8594-54AC48278236}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CD82AFB8-EBEB-4152-9805-2E141B1D4D7E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CD82AFB8-EBEB-4152-9805-2E141B1D4D7E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CD82AFB8-EBEB-4152-9805-2E141B1D4D7E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CD82AFB8-EBEB-4152-9805-2E141B1D4D7E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
